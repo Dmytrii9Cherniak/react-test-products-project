@@ -4,7 +4,7 @@ import { ProductActionModel } from '../models/ProductActionModel';
 import { environment } from '../environment';
 
 
-export const getProducts = () => {
+export const getAllProducts = () => {
     return async (dispatch: Dispatch<ProductActionModel>) => {
         try {
             dispatch({ type: Action_types.GET_ALL_PRODUCTS });
