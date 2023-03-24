@@ -4,7 +4,7 @@ import { ProductActionModel } from '../models/ProductActionModel';
 import { environment } from '../environment';
 import { NewProductModel } from '../models/NewProductModel';
 import { RootState } from '../redux/all_reducers';
-import {ProductModel} from "../models/ProductModel";
+import { ProductModel } from '../models/ProductModel';
 
 
 export const createNewProduct = (body: NewProductModel) => {
