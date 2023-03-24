@@ -1,0 +1,17 @@
+@import './src/index.scss';
+
+.inputBlock {
+  width: 100%;
+
+  .input {
+    width: 85%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid;
+    border-radius: 4px;
+    font-family: 'Josefin Sans', sans-serif;
+    border-collapse: collapse;
+    font-weight: 7900;
+  }
+}

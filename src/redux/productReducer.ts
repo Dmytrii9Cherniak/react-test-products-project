@@ -42,6 +42,13 @@ export const ProductReducer = (state = initialState, action: ProductActionModel)
         case Action_types.CREATE_NEW_PRODUCT_SUCCESS:
             return { ...state, loading: false, products: [...state.products, action.payload] };
 
+        case Action_types.FIND_PRODUCTS_BY_TITLE:
+            return { ...state, loading: true, error: null };
+        case Action_types.FIND_PRODUCTS_BY_TITLE_SUCCESS:
+            return { ...state, loading: false, products: action.payload };
+        case Action_types.FIND_PRODUCTS_BY_TITLE_ERROR:
+            return { ...state, loading: false, error: action.payload };
+
         case Action_types.UPDATE_EXISTS_PRODUCT:
             return { ...state, loading: true };
         case Action_types.UPDATE_EXISTS_PRODUCT_ERROR:
@@ -56,6 +63,7 @@ export const ProductReducer = (state = initialState, action: ProductActionModel)
             const deletedProductId = action.payload;
             const remainingProducts = state.products.filter(product => product.id !== deletedProductId);
             return { ...state, loading: false, products: remainingProducts };
+
         default:
             return state;
     }

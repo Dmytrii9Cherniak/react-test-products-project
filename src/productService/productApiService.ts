@@ -4,6 +4,7 @@ import { ProductActionModel } from '../models/ProductActionModel';
 import { environment } from '../environment';
 import { NewProductModel } from '../models/NewProductModel';
 import { RootState } from '../redux/all_reducers';
+import {ProductModel} from "../models/ProductModel";
 
 
 export const createNewProduct = (body: NewProductModel) => {
@@ -46,11 +47,12 @@ export const getAllProducts = () => {
     }
 }
 
-export const getProductsInCategory = (category: string) => {
+export const getProductsInCategory = (category: string = "") => {
     return async (dispatch: Dispatch<ProductActionModel>) => {
         try {
             dispatch({ type: Action_types.GET_PRODUCTS_IN_CATEGORY});
-            const response = await fetch(`${environment.baseApiUrl}/products/category/${category}`).then(response => response.json());
+            const url = category ? `${environment.baseApiUrl}/products/category/${category}` : `${environment.baseApiUrl}/products`;
+            const response = await fetch(url).then(response => response.json());
             dispatch({ type: Action_types.GET_PRODUCTS_IN_CATEGORY_SUCCESS, payload: response.products })
         } catch (error) {
             dispatch({type: Action_types.GET_PRODUCTS_IN_CATEGORY_ERROR, payload: 'Something went wrong'})
@@ -58,7 +60,26 @@ export const getProductsInCategory = (category: string) => {
     }
 }
 
-export const resetProductsFilter = () => {
-
-}
+export const findProductsByTitle = (title: string) => {
+    return async (dispatch: Dispatch<ProductActionModel>) => {
+        try {
+            dispatch({ type: Action_types.FIND_PRODUCTS_BY_TITLE });
+            const url = `${environment.baseApiUrl}/products/search?q=${title}`;
+            const response = await fetch(url).then((response) => response.json());
+            const products = response.products.filter(
+                (product: ProductModel) =>
+                    product.title.toLowerCase().includes(title.toLowerCase())
+            );
+            dispatch({
+                type: Action_types.FIND_PRODUCTS_BY_TITLE_SUCCESS,
+                payload: products,
+            });
+        } catch (error) {
+            dispatch({
+                type: Action_types.FIND_PRODUCTS_BY_TITLE_ERROR,
+                payload: "Something went wrong",
+            });
+        }
+    };
+};
 

@@ -15,12 +15,39 @@
 
   .sortItemsBlock {
     width: 1300px;
+    height: 55px;
     display: flex;
     justify-content: flex-start;
-    background-color: gold;
+    align-items: center;
+    column-gap: 35px;
+
+    select {
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    option {
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    option:hover {
+      background-color: #eee;
+      color: #333;
+    }
+
+    option:checked {
+      background-color: #0077cc;
+      color: #fff;
+    }
   }
 
-  .errorOrLoading {
+  .errorLoadingOrNoProductsFound {
     font-family: 'Josefin Sans', sans-serif;
     font-size: 48px;
     font-weight: 800;
