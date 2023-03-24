@@ -2,9 +2,16 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import './NewProduct.scss'
+import {useDispatch} from "react-redux";
+import {NewProductModel} from "../../models/NewProductModel";
+import {ThunkDispatch} from "redux-thunk";
+import {RootState} from "../../redux/all_reducers";
+import {ProductActionModel} from "../../models/ProductActionModel";
+import {createNewProduct} from "../../getUsers/productApiService";
 
 function NewProduct() {
 
+    const dispatch: ThunkDispatch<RootState, void, ProductActionModel> = useDispatch();
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
@@ -16,14 +23,16 @@ function NewProduct() {
             .required('Rating is required'),
     });
 
+    const createNewProductItem = (values: NewProductModel) => {
+        dispatch(createNewProduct(values))
+    }
+
     return (
         <div className="newProductPage">
             <Formik
                 initialValues={{ name: '', author: '', year: '', rating: '' }}
                 validationSchema={validationSchema}
-                onSubmit={(values) => {
-                    console.log(values);
-                }}>
+                onSubmit={(values) => createNewProductItem(values)}>
 
                 {({ errors, touched, dirty }) => (
                     <Form>

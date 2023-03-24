@@ -1,5 +1,3 @@
-
-
 export interface ProductModel {
     id: number,
     title: string,
@@ -11,5 +9,5 @@ export interface ProductModel {
     brand: string,
     category: string,
     thumbnail: string,
-    images: string[]
+    images: string[],
 }

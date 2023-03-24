@@ -20,7 +20,7 @@ function ProductList() {
         <div className="addProductsList">
             {error && <div> Something went wrong </div>}
             {loading && <div> Loading... </div>}
-            {products.map(product => <div key={product.id}> {product.title} </div>)}
+            {products.map((product) => product && <div key={product.id}> {product?.title} {product?.id} </div>)}
 
         </div>
     );
