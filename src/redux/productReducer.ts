@@ -20,18 +20,28 @@ export const ProductReducer = (state = initialState, action: ProductActionModel)
             return { loading: false, error: action.payload, products: [], categories: [] }
         case Action_types.GET_PRODUCTS_SUCCESS:
             return { loading: false, error: null, products: action.payload, categories: [] }
+
         case Action_types.GET_ALL_CATEGORIES:
             return state;
         case Action_types.GET_ALL_CATEGORIES_ERROR:
             return state;
         case Action_types.GET_ALL_CATEGORIES_SUCCESS:
             return { ...state, categories: [...state.categories, ...action.payload] }
+
+        case Action_types.GET_PRODUCTS_IN_CATEGORY:
+            return { ...state, loading: true, error: null, products: [] };
+        case Action_types.GET_PRODUCTS_IN_CATEGORY_ERROR:
+            return { ...state, loading: false, error: action.payload };
+        case Action_types.GET_PRODUCTS_IN_CATEGORY_SUCCESS:
+            return { ...state, loading: false, error: null, products: action.payload };
+
         case Action_types.CREATE_NEW_PRODUCT:
             return { ...state, loading: true };
         case Action_types.CREATE_NEW_PRODUCT_ERROR:
             return { loading: false, error: action.payload, products: [...state.products], categories: [] };
         case Action_types.CREATE_NEW_PRODUCT_SUCCESS:
             return { ...state, loading: false, products: [...state.products, action.payload] };
+
         case Action_types.UPDATE_EXISTS_PRODUCT:
             return { ...state, loading: true };
         case Action_types.UPDATE_EXISTS_PRODUCT_ERROR:
@@ -41,6 +51,7 @@ export const ProductReducer = (state = initialState, action: ProductActionModel)
             const updatedProducts = [...state.products];
             updatedProducts[updatedProductIndex] = action.payload;
             return { ...state, loading: false, products: updatedProducts };
+
         case Action_types.DELETE_EXISTS_PRODUCT:
             const deletedProductId = action.payload;
             const remainingProducts = state.products.filter(product => product.id !== deletedProductId);

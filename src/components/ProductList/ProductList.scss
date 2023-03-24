@@ -14,10 +14,9 @@
   row-gap: 35px;
 
   .sortItemsBlock {
-    padding-left: 110px;
+    width: 1300px;
     display: flex;
     justify-content: flex-start;
-    width: 100%;
     background-color: gold;
   }
 
@@ -31,7 +30,6 @@
   }
 
   table {
-    //margin-top: 45px;
     margin-bottom: 25px;
     font-family: 'Josefin Sans', sans-serif;
     border-collapse: collapse;

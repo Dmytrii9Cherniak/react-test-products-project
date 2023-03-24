@@ -31,15 +31,34 @@ export const getAllCategories = () => {
         } catch (error) {
             dispatch({ type: Action_types.GET_ALL_CATEGORIES_ERROR, payload: 'Something went wrong'})
         }
-    }}
+    }
+}
 
 export const getAllProducts = () => {
     return async (dispatch: Dispatch<ProductActionModel>) => {
         try {
             dispatch({ type: Action_types.GET_ALL_PRODUCTS });
-            const response = await fetch(`${environment.baseApiUrl}/products`).then(response => response.json())
+            const response = await fetch(`${environment.baseApiUrl}/products`).then(response => response.json());
             dispatch({ type: Action_types.GET_PRODUCTS_SUCCESS, payload: response.products })
         } catch (e) {
             dispatch({ type: Action_types.GET_PRODUCTS_ERROR, payload: 'Something went wrong' });
         }
-    }}
+    }
+}
+
+export const getProductsInCategory = (category: string) => {
+    return async (dispatch: Dispatch<ProductActionModel>) => {
+        try {
+            dispatch({ type: Action_types.GET_PRODUCTS_IN_CATEGORY});
+            const response = await fetch(`${environment.baseApiUrl}/products/category/${category}`).then(response => response.json());
+            dispatch({ type: Action_types.GET_PRODUCTS_IN_CATEGORY_SUCCESS, payload: response.products })
+        } catch (error) {
+            dispatch({type: Action_types.GET_PRODUCTS_IN_CATEGORY_ERROR, payload: 'Something went wrong'})
+        }
+    }
+}
+
+export const resetProductsFilter = () => {
+
+}
+
