@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
-import {getAllCategories, getAllProducts, getProductsInCategory} from '../../productService/productApiService';
+import { getAllCategories, getAllProducts, getProductsInCategory } from '../../productService/productApiService';
 import { ProductActionModel } from '../../models/ProductActionModel';
 import { RootState } from '../../redux/all_reducers';
 import { ThunkDispatch } from 'redux-thunk';
@@ -12,6 +12,7 @@ function ProductList() {
     const { products, error, loading, categories } = useTypesSelector(state => state.products);
     const dispatch: ThunkDispatch<RootState, void, ProductActionModel> = useDispatch();
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedSort, setSelectedSort] = useState("");
 
     useEffect(() => {
         dispatch(getAllProducts()).then(() => {
@@ -28,9 +29,43 @@ function ProductList() {
         }
     };
 
+    const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedSort(event.target.value);
+    };
+
+    let sortedProducts = [...products];
+
+    switch (selectedSort) {
+        case "expensive":
+            sortedProducts.sort((a, b) => b.price - a.price);
+            break;
+        case "cheap":
+            sortedProducts.sort((a, b) => a.price - b.price);
+            break;
+        case "ascending":
+            sortedProducts.sort((a, b) => a.price - b.price);
+            break;
+        case "rating":
+            sortedProducts.sort((a, b) => b.rating - a.rating);
+            break;
+        case "name":
+            sortedProducts.sort((a,b) => a.title.localeCompare(b.title));
+            break
+        default:
+            break;
+    }
+
     return (
         <div className="addProductsList">
             <div className="sortItemsBlock">
+                <select value={selectedSort} onChange={handleSortChange}>
+                    <option value=""> Reset </option>
+                    <option value="expensive"> From expensive to cheap </option>
+                    <option value="cheap"> From cheap to expensive </option>
+                    <option value="ascending"> Sort by price ascending </option>
+                    <option value="rating"> Sort by rating </option>
+                    <option value="name"> Sort by name </option>
+                </select>
                 <select value={selectedCategory} onChange={handleCategoryChange}>
                     <option value="">All categories</option>
                     {categories.map((category, index) => (
@@ -42,10 +77,10 @@ function ProductList() {
                 <input />
             </div>
             {error && <div className="errorOrLoading">Something went wrong</div>}
-            {(loading || products.length <= 0) && (
+            {(loading || sortedProducts.length <= 0) && (
                 <div className="errorOrLoading">Loading...</div>
             )}
-            {!error && !loading && products.length > 0 && (
+            {!error && !loading && sortedProducts.length > 0 && (
                 <table>
                     <thead>
                     <tr className="headOfTable">
@@ -60,7 +95,7 @@ function ProductList() {
                     </tr>
                     </thead>
                     <tbody>
-                    {products.map(
+                    {sortedProducts.map(
                         (product) =>
                             product && (
                                 <tr className="tableProductItem" key={product.id}>
