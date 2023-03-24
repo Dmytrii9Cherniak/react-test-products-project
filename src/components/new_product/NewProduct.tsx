@@ -2,12 +2,12 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import './NewProduct.scss'
-import {useDispatch} from "react-redux";
-import {NewProductModel} from "../../models/NewProductModel";
-import {ThunkDispatch} from "redux-thunk";
-import {RootState} from "../../redux/all_reducers";
-import {ProductActionModel} from "../../models/ProductActionModel";
-import {createNewProduct} from "../../getUsers/productApiService";
+import { useDispatch } from 'react-redux';
+import { NewProductModel } from '../../models/NewProductModel';
+import { ThunkDispatch } from 'redux-thunk';
+import { RootState } from '../../redux/all_reducers';
+import { ProductActionModel } from '../../models/ProductActionModel';
+import { createNewProduct } from '../../productService/productApiService';
 
 function NewProduct() {
 

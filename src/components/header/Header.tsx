@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import './Header.scss'
 
-export function Header() {
+function Header() {
 
     const location = useLocation();
     const isNewProductPage = location.pathname === '/new';
@@ -18,3 +18,5 @@ export function Header() {
         }
             </header>);
 }
+
+export default Header;

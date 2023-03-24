@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getAllProducts } from '../../getUsers/productApiService';
+import { getAllProducts } from '../../productService/productApiService';
 import { ProductActionModel } from '../../models/ProductActionModel';
 import { RootState } from '../../redux/all_reducers';
 import { ThunkDispatch } from 'redux-thunk';

@@ -1,8 +1,8 @@
 import React from 'react';
 import ProductList from './components/ProductList/ProductList';
-import {Header} from "./components/header/Header";
-import {Navigate, Route, Routes} from "react-router-dom";
-import NewProduct from "./components/new_product/NewProduct";
+import Header from "./components/header/Header";
+import NewProduct from './components/new_product/NewProduct';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
