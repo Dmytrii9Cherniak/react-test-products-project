@@ -24,7 +24,7 @@ function ProductList() {
         if (event.target.value) {
             dispatch(getProductsInCategory(event.target.value));
         } else {
-            dispatch(getAllProducts());
+            dispatch(getProductsInCategory());
         }
     };
 

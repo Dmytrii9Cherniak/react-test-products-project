@@ -46,11 +46,12 @@ export const getAllProducts = () => {
     }
 }
 
-export const getProductsInCategory = (category: string) => {
+export const getProductsInCategory = (category: string = "") => {
     return async (dispatch: Dispatch<ProductActionModel>) => {
         try {
             dispatch({ type: Action_types.GET_PRODUCTS_IN_CATEGORY});
-            const response = await fetch(`${environment.baseApiUrl}/products/category/${category}`).then(response => response.json());
+            const url = category ? `${environment.baseApiUrl}/products/category/${category}` : `${environment.baseApiUrl}/products`;
+            const response = await fetch(url).then(response => response.json());
             dispatch({ type: Action_types.GET_PRODUCTS_IN_CATEGORY_SUCCESS, payload: response.products })
         } catch (error) {
             dispatch({type: Action_types.GET_PRODUCTS_IN_CATEGORY_ERROR, payload: 'Something went wrong'})
