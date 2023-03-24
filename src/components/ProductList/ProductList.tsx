@@ -13,15 +13,43 @@ function ProductList() {
     const dispatch: ThunkDispatch<RootState, void, ProductActionModel> = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllProducts())
-    },[])
+        dispatch(getAllProducts());
+    },[dispatch])
 
     return (
         <div className="addProductsList">
-            {error && <div> Something went wrong </div>}
-            {loading && <div> Loading... </div>}
-            {products.map((product) => product && <div key={product.id}> {product?.title} {product?.id} </div>)}
-
+            {error && <div className="errorOrLoading"> Something went wrong </div>}
+            {(loading || products.length <= 0) && <div className="errorOrLoading"> Loading... </div>}
+            {!error && !loading && products.length > 0 && (
+                <table>
+                    <thead>
+                    <tr className="headOfTable">
+                        <th> Id </th>
+                        <th> Name </th>
+                        <th> Description </th>
+                        <th> Price </th>
+                        <th> Photo </th>
+                        <th> Rating </th>
+                        <th> Stock </th>
+                        <th> Category </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {products.map((product) => product &&
+                        <tr className="tableProductItem" key={product.id}>
+                            <td> {product.id} </td>
+                            <td> {product.title} </td>
+                            <td> {product.description} </td>
+                            <td> {product.price} </td>
+                            <td> <img src={product.images[0]} alt={product.title}/> </td>
+                            <td> {product.rating} </td>
+                            <td> {product.stock} </td>
+                            <td> {product.category} </td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+            )}
         </div>
     );
 }

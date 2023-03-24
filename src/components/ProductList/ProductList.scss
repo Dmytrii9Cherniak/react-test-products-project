@@ -1,1 +1,52 @@
+@import './src/index.scss';
 
+.addProductsList {
+  width: 100%;
+  min-height: calc(100vh - 75px);
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  .errorOrLoading {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  table {
+    margin-top: 45px;
+    margin-bottom: 25px;
+    font-family: 'Josefin Sans', sans-serif;
+    border-collapse: collapse;
+    width: 1300px;
+
+    & th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: $basic-green-color;
+      color: white;
+    }
+
+    & td, th {
+      border: 1px solid $basic-gray-color;
+      padding: 8px;
+    }
+
+    & .tableProductItem {
+
+      img {
+        width: 178px;
+      }
+    }
+
+  }
+
+
+}
