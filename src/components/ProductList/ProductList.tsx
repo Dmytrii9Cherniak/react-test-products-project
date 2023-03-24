@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getAllProducts } from '../../productService/productApiService';
+import { getAllCategories, getAllProducts } from '../../productService/productApiService';
 import { ProductActionModel } from '../../models/ProductActionModel';
 import { RootState } from '../../redux/all_reducers';
 import { ThunkDispatch } from 'redux-thunk';
@@ -9,15 +9,23 @@ import './ProductList.scss';
 
 function ProductList() {
 
-    const { products, error, loading } = useTypesSelector(state => state.products);
+    const { products, error, loading, categories } = useTypesSelector(state => state.products);
     const dispatch: ThunkDispatch<RootState, void, ProductActionModel> = useDispatch();
 
     useEffect(() => {
-        dispatch(getAllProducts());
+        dispatch(getAllProducts()).then(() => {
+            dispatch(getAllCategories())
+        });
     },[dispatch])
 
     return (
         <div className="addProductsList">
+            <div className="sortItemsBlock">
+                <select>
+                    {categories.map((category, index) => <option key={index}> {category} </option>)}
+                </select>
+                <input/>
+            </div>
             {error && <div className="errorOrLoading"> Something went wrong </div>}
             {(loading || products.length <= 0) && <div className="errorOrLoading"> Loading... </div>}
             {!error && !loading && products.length > 0 && (
