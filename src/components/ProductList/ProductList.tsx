@@ -1,10 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getAllCategories, getAllProducts, getProductsInCategory } from '../../productService/productApiService';
+import {
+    findProductsByTitle,
+    getAllCategories,
+    getAllProducts,
+    getProductsInCategory
+} from '../../productService/productApiService';
 import { ProductActionModel } from '../../models/ProductActionModel';
 import { RootState } from '../../redux/all_reducers';
 import { ThunkDispatch } from 'redux-thunk';
 import { useTypesSelector } from '../../hooks/UseTypesSelector';
+import Input from '../input/Input';
 import './ProductList.scss';
 
 function ProductList() {
@@ -13,6 +19,7 @@ function ProductList() {
     const dispatch: ThunkDispatch<RootState, void, ProductActionModel> = useDispatch();
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSort, setSelectedSort] = useState("");
+    const [inputValue, setInputValue] = useState("");
 
     useEffect(() => {
         dispatch(getAllProducts()).then(() => {
@@ -42,9 +49,6 @@ function ProductList() {
         case "cheap":
             sortedProducts.sort((a, b) => a.price - b.price);
             break;
-        case "ascending":
-            sortedProducts.sort((a, b) => a.price - b.price);
-            break;
         case "rating":
             sortedProducts.sort((a, b) => b.rating - a.rating);
             break;
@@ -55,6 +59,17 @@ function ProductList() {
             break;
     }
 
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const title = event.target.value;
+        setInputValue(title);
+        if (title) {
+            dispatch(findProductsByTitle(title));
+            dispatch(getAllCategories())
+        } else {
+            dispatch(getAllProducts())
+        }
+    };
+
     return (
         <div className="addProductsList">
             <div className="sortItemsBlock">
@@ -62,7 +77,6 @@ function ProductList() {
                     <option value=""> Reset </option>
                     <option value="expensive"> From expensive to cheap </option>
                     <option value="cheap"> From cheap to expensive </option>
-                    <option value="ascending"> Sort by price ascending </option>
                     <option value="rating"> Sort by rating </option>
                     <option value="name"> Sort by name </option>
                 </select>
@@ -74,11 +88,14 @@ function ProductList() {
                         </option>
                     ))}
                 </select>
-                <input />
+                <Input inputValue={inputValue} onInputChange={handleInputChange}/>
             </div>
-            {error && <div className="errorOrLoading">Something went wrong</div>}
-            {(loading || sortedProducts.length <= 0) && (
-                <div className="errorOrLoading">Loading...</div>
+            {error && !loading && <div className="errorLoadingOrNoProductsFound"> Something went wrong </div>}
+            {!error && !loading && sortedProducts.length <= 0 && (
+                <div className="errorLoadingOrNoProductsFound"> No products found </div>
+            )}
+            {(loading && sortedProducts.length <= 0 && !error) && (
+                <div className="errorLoadingOrNoProductsFound"> Loading... </div>
             )}
             {!error && !loading && sortedProducts.length > 0 && (
                 <table>
@@ -95,9 +112,7 @@ function ProductList() {
                     </tr>
                     </thead>
                     <tbody>
-                    {sortedProducts.map(
-                        (product) =>
-                            product && (
+                    {sortedProducts.map((product) => product && (
                                 <tr className="tableProductItem" key={product.id}>
                                     <td>{product.id}</td>
                                     <td>{product.title}</td>
