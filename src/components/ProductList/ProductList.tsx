@@ -60,13 +60,13 @@ function ProductList() {
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const title = event.target.value;
-        setInputValue(title);
-        if (title) {
-            dispatch(findProductsByTitle(title));
-            dispatch(getAllCategories())
+        setInputValue(event.target.value);
+        if (event.target.value) {
+            dispatch(findProductsByTitle(event.target.value));
         } else {
-            dispatch(getAllProducts())
+            dispatch(getAllProducts()).then(() => {
+                dispatch(getAllCategories());
+            });
         }
     };
 
