@@ -4,7 +4,7 @@ import { ProductActionModel } from '../models/ProductActionModel';
 import { environment } from '../environment';
 import { NewProductModel } from '../models/NewProductModel';
 import { RootState } from '../redux/all_reducers';
-import {ProductModel} from "../models/ProductModel";
+import { ProductModel } from '../models/ProductModel';
 
 
 export const createNewProduct = (body: NewProductModel) => {
@@ -67,8 +67,11 @@ export const findProductsByTitle = (title: string) => {
             const url = `${environment.baseApiUrl}/products/search?q=${title}`;
             const response = await fetch(url).then((response) => response.json());
             const products = response.products.filter(
-                (product: ProductModel) =>
-                    product.title.toLowerCase().includes(title.toLowerCase())
+                (product: ProductModel) => {
+                    const titleChars = product.title.toLowerCase().split('');
+                    const searchChars = title.toLowerCase().split('');
+                    return searchChars.every((char, index) => titleChars[index] === char);
+                }
             );
             dispatch({
                 type: Action_types.FIND_PRODUCTS_BY_TITLE_SUCCESS,
